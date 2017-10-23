@@ -1,0 +1,19 @@
+mydata=DirectMarketing
+fit<-lm(mydata$AmountSpent~mydata$Children+mydata$Income+mydata$Catalogs)
+summary(fit)
+plot(fit)
+layout(matrix(c(1,2,3,4),2,2))
+summary(mydata)
+mydata$ageold=ifelse(mydata$Age=="Old",1,0)
+mydata$ageyoung=ifelse(mydata$Age=="Young",1,0)
+fit<-lm(mydata$AmountSpent~mydata$ageold+mydata$ageyoung,data=mydata)
+summary(fit)
+fit<-lm(mydata$AmountSpent~mydata$ageold+mydata$ageyoung,data=mydata,
+        subset=(mydata$Gender=="Male"))
+summary(fit)
+mydata$Far=ifelse(mydata$Location=="Far",1,0)
+fit<-lm(mydata$AmountSpent~mydata$Income+mydata$Far)
+summary(fit)
+mydata$Incomefar=mydata$Income*mydata$Far
+fit<-lm(mydata$AmountSpent~mydata$Income+mydata$Far+mydata$Income*mydata$Far)
+summary(fit)

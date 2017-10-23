@@ -1,0 +1,20 @@
+```{r}
+load("C:/Nupur/CSUEB University/NupurStudy/MSBA/Fall 2017/DataMining ITM6285/Dr Peng Xie/titanic.raw.rdata")
+```
+```{r}
+head(titanic.raw)
+```
+```{r}
+library(Matrix)
+```
+```{r}
+library(arules) 
+```
+
+```{r}
+(rules = apriori(titanic.raw))
+```
+```{r}
+inspect (rules)
+```
+
