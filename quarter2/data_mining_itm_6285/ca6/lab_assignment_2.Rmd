@@ -1,0 +1,42 @@
+---
+output:
+  word_document: default
+  html_document: default
+---
+#Task 1: Import the data and Background Information
+
+```{r}
+library(readxl)
+Admission <- read_excel("C:/Users/tra/Google Drive/College/Fall 2017 (1)/ITM 6285/Lab2/Admission.xlsx")
+```
+#Task 2: Logistic Regression and Interpretation
+
+- GRE is statitsically significant with coefficient of 0.002294.
+
+- This means one point increase in GRE would increase the log odds of an applicant being admitted by 0.0023
+```{r}
+logisticmodel<-glm(Admission$ADMIT~Admission$GRE+Admission$GPA+Admission$RANK, family=binomial('logit'), data =Admission)
+
+summary(logisticmodel)
+```
+
+
+#Task 3: Prediction and Confusion Table
+
+
+
+```{r}
+Predictedprob=logisticmodel$fitted.values
+
+table(trueclass=Admission$ADMIT, predictedclass=Predictedprob>0.5)
+
+```
+
+```{r}
+
+```
+
+```{r}
+
+```
+
