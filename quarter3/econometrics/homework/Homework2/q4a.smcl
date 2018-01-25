@@ -1,0 +1,276 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/Users/surbhiasati/Desktop/Econometrics/Homework2/q4a.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}24 Jan 2018, 20:23:33
+
+{com}.  reg gprice gwage gwage_1 gwage_2 gwage_3 gwage_4 gwage_5 gwage_6 gwage_7 gwage_8 gwage_9 gwage_10 gwage_11 gwage_12
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}       273
+{txt}{hline 13}{c +}{hline 34}   F(13, 259)      = {res}     9.25
+{txt}       Model {c |} {res} .000981458        13  .000075497   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} .002113658       259  8.1608e-06   {txt}R-squared       ={res}    0.3171
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.2828
+{txt}       Total {c |} {res} .003095116       272  .000011379   {txt}Root MSE        =   {res} .00286
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}      gprice{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 7}gwage {c |}{col 14}{res}{space 2} .1190416{col 26}{space 2} .0517725{col 37}{space 1}    2.30{col 46}{space 3}0.022{col 54}{space 4} .0170929{col 67}{space 3} .2209903
+{txt}{space 5}gwage_1 {c |}{col 14}{res}{space 2} .0972174{col 26}{space 2} .0390409{col 37}{space 1}    2.49{col 46}{space 3}0.013{col 54}{space 4} .0203393{col 67}{space 3} .1740954
+{txt}{space 5}gwage_2 {c |}{col 14}{res}{space 2} .0399518{col 26}{space 2} .0390717{col 37}{space 1}    1.02{col 46}{space 3}0.307{col 54}{space 4}-.0369869{col 67}{space 3} .1168905
+{txt}{space 5}gwage_3 {c |}{col 14}{res}{space 2} .0382652{col 26}{space 2} .0391513{col 37}{space 1}    0.98{col 46}{space 3}0.329{col 54}{space 4}-.0388301{col 67}{space 3} .1153605
+{txt}{space 5}gwage_4 {c |}{col 14}{res}{space 2} .0813362{col 26}{space 2} .0393483{col 37}{space 1}    2.07{col 46}{space 3}0.040{col 54}{space 4} .0038528{col 67}{space 3} .1588195
+{txt}{space 5}gwage_5 {c |}{col 14}{res}{space 2}  .106852{col 26}{space 2} .0391937{col 37}{space 1}    2.73{col 46}{space 3}0.007{col 54}{space 4} .0296731{col 67}{space 3} .1840308
+{txt}{space 5}gwage_6 {c |}{col 14}{res}{space 2} .0949731{col 26}{space 2} .0392186{col 37}{space 1}    2.42{col 46}{space 3}0.016{col 54}{space 4} .0177451{col 67}{space 3} .1722011
+{txt}{space 5}gwage_7 {c |}{col 14}{res}{space 2} .1037922{col 26}{space 2} .0393788{col 37}{space 1}    2.64{col 46}{space 3}0.009{col 54}{space 4} .0262488{col 67}{space 3} .1813355
+{txt}{space 5}gwage_8 {c |}{col 14}{res}{space 2} .1025629{col 26}{space 2} .0394884{col 37}{space 1}    2.60{col 46}{space 3}0.010{col 54}{space 4} .0248037{col 67}{space 3}  .180322
+{txt}{space 5}gwage_9 {c |}{col 14}{res}{space 2} .1585079{col 26}{space 2} .0393341{col 37}{space 1}    4.03{col 46}{space 3}0.000{col 54}{space 4} .0810526{col 67}{space 3} .2359632
+{txt}{space 4}gwage_10 {c |}{col 14}{res}{space 2} .1104412{col 26}{space 2} .0392229{col 37}{space 1}    2.82{col 46}{space 3}0.005{col 54}{space 4} .0332049{col 67}{space 3} .1876776
+{txt}{space 4}gwage_11 {c |}{col 14}{res}{space 2} .1033206{col 26}{space 2} .0394388{col 37}{space 1}    2.62{col 46}{space 3}0.009{col 54}{space 4} .0256591{col 67}{space 3}  .180982
+{txt}{space 4}gwage_12 {c |}{col 14}{res}{space 2} .0156575{col 26}{space 2} .0518343{col 37}{space 1}    0.30{col 46}{space 3}0.763{col 54}{space 4}-.0864128{col 67}{space 3} .1177278
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.0009296{col 26}{space 2} .0005662{col 37}{space 1}   -1.64{col 46}{space 3}0.102{col 54}{space 4}-.0020445{col 67}{space 3} .0001853
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{com}. tsset t
+{res}{txt}{col 9}time variable:  {res}{col 25}t, 1 to 286
+{txt}{col 17}delta:  {res}1 unit
+
+{com}. prais u_hat u_hat_1, corc
+
+{txt}Iteration 0:  rho = {res}0.0000
+{txt}Iteration 1:  rho = {res}-0.1050
+{txt}Iteration 2:  rho = {res}-0.1995
+{txt}Iteration 3:  rho = {res}-0.2577
+{txt}Iteration 4:  rho = {res}-0.2833
+{txt}Iteration 5:  rho = {res}-0.2926
+{txt}Iteration 6:  rho = {res}-0.2957
+{txt}Iteration 7:  rho = {res}-0.2968
+{txt}Iteration 8:  rho = {res}-0.2971
+{txt}Iteration 9:  rho = {res}-0.2972
+{txt}Iteration 10:  rho = {res}-0.2972
+{txt}Iteration 11:  rho = {res}-0.2973
+{txt}Iteration 12:  rho = {res}-0.2973
+{txt}Iteration 13:  rho = {res}-0.2973
+{txt}Iteration 14:  rho = {res}-0.2973
+
+{txt}Cochrane-Orcutt AR(1) regression -- iterated estimates
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}       271
+{txt}{hline 13}{c +}{hline 34}   F(1, 269)       = {res}   252.61
+{txt}       Model {c |} {res} .001407491         1  .001407491   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} .001498798       269  5.5717e-06   {txt}R-squared       ={res}    0.4843
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.4824
+{txt}       Total {c |} {res} .002906289       270  .000010764   {txt}Root MSE        =   {res} .00236
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}       u_hat{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 5}u_hat_1 {c |}{col 14}{res}{space 2} .6946511{col 26}{space 2} .0437058{col 37}{space 1}   15.89{col 46}{space 3}0.000{col 54}{space 4} .6086021{col 67}{space 3} .7807001
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0000154{col 26}{space 2} .0001105{col 37}{space 1}    0.14{col 46}{space 3}0.889{col 54}{space 4}-.0002022{col 67}{space 3} .0002331
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+         rho {c |}  {res}-.2972595
+{txt}{hline 13}{c BT}{hline 64}
+Durbin-Watson statistic (original)    {res}2.209061
+{txt}Durbin-Watson statistic (transformed) {res}2.018963
+
+{com}.  prais gprice u_hat u_hat_1, corc
+
+{txt}Iteration 0:  rho = {res}0.0000
+{txt}Iteration 1:  rho = {res}0.9266
+{txt}Iteration 2:  rho = {res}0.9268
+{txt}Iteration 3:  rho = {res}0.9268
+
+{txt}Cochrane-Orcutt AR(1) regression -- iterated estimates
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}       271
+{txt}{hline 13}{c +}{hline 34}   F(2, 268)       = {res}  1764.62
+{txt}       Model {c |} {res} .001874714         2  .000937357   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res}  .00014236       268  5.3119e-07   {txt}R-squared       ={res}    0.9294
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.9289
+{txt}       Total {c |} {res} .002017074       270  7.4706e-06   {txt}Root MSE        =   {res} .00073
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}      gprice{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 7}u_hat {c |}{col 14}{res}{space 2} .9863053{col 26}{space 2} .0180202{col 37}{space 1}   54.73{col 46}{space 3}0.000{col 54}{space 4} .9508262{col 67}{space 3} 1.021784
+{txt}{space 5}u_hat_1 {c |}{col 14}{res}{space 2}  .011565{col 26}{space 2} .0180378{col 37}{space 1}    0.64{col 46}{space 3}0.522{col 54}{space 4}-.0239487{col 67}{space 3} .0470787
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0047306{col 26}{space 2} .0006047{col 37}{space 1}    7.82{col 46}{space 3}0.000{col 54}{space 4} .0035401{col 67}{space 3}  .005921
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+         rho {c |}  {res} .9267733
+{txt}{hline 13}{c BT}{hline 64}
+Durbin-Watson statistic (original)    {res}0.151375
+{txt}Durbin-Watson statistic (transformed) {res}2.218089
+
+{com}. prais gprice gwage gwage_1 gwage_2 gwage_3 gwage_4 gwage_5 gwage_6 gwage_7 gwage_8 gwage_9 gwage_10 gwage_11 gwage_12 corc
+{err}variable {bf}corc{sf} not found
+{txt}{search r(111), local:r(111);}
+
+{com}. 
+. 
+. tsset t
+{res}{txt}{col 9}time variable:  {res}{col 25}t, 1 to 286
+{txt}{col 17}delta:  {res}1 unit
+
+{com}. prais gprice gwage gwage_1 gwage_2 gwage_3 gwage_4 gwage_5 gwage_6 gwage_7 gwage_8 gwage_9 gwage_10 gwage_11 gwage_12, corc
+
+{txt}Iteration 0:  rho = {res}0.0000
+{txt}Iteration 1:  rho = {res}0.5027
+{txt}Iteration 2:  rho = {res}0.5085
+{txt}Iteration 3:  rho = {res}0.5086
+{txt}Iteration 4:  rho = {res}0.5086
+{txt}Iteration 5:  rho = {res}0.5086
+
+{txt}Cochrane-Orcutt AR(1) regression -- iterated estimates
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}       272
+{txt}{hline 13}{c +}{hline 34}   F(13, 258)      = {res}     3.52
+{txt}       Model {c |} {res} .000276359        13  .000021258   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} .001559753       258  6.0456e-06   {txt}R-squared       ={res}    0.1505
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.1077
+{txt}       Total {c |} {res} .001836112       271  6.7753e-06   {txt}Root MSE        =   {res} .00246
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}      gprice{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 7}gwage {c |}{col 14}{res}{space 2} .0791942{col 26}{space 2} .0415638{col 37}{space 1}    1.91{col 46}{space 3}0.058{col 54}{space 4}-.0026533{col 67}{space 3} .1610417
+{txt}{space 5}gwage_1 {c |}{col 14}{res}{space 2} .0726127{col 26}{space 2}  .040009{col 37}{space 1}    1.81{col 46}{space 3}0.071{col 54}{space 4}-.0061731{col 67}{space 3} .1513984
+{txt}{space 5}gwage_2 {c |}{col 14}{res}{space 2} .0239012{col 26}{space 2} .0410998{col 37}{space 1}    0.58{col 46}{space 3}0.561{col 54}{space 4}-.0570325{col 67}{space 3} .1048349
+{txt}{space 5}gwage_3 {c |}{col 14}{res}{space 2} .0334177{col 26}{space 2} .0410322{col 37}{space 1}    0.81{col 46}{space 3}0.416{col 54}{space 4} -.047383{col 67}{space 3} .1142183
+{txt}{space 5}gwage_4 {c |}{col 14}{res}{space 2} .0800965{col 26}{space 2} .0410233{col 37}{space 1}    1.95{col 46}{space 3}0.052{col 54}{space 4}-.0006866{col 67}{space 3} .1608796
+{txt}{space 5}gwage_5 {c |}{col 14}{res}{space 2} .1132117{col 26}{space 2}  .041008{col 37}{space 1}    2.76{col 46}{space 3}0.006{col 54}{space 4} .0324587{col 67}{space 3} .1939647
+{txt}{space 5}gwage_6 {c |}{col 14}{res}{space 2} .0971594{col 26}{space 2} .0412238{col 37}{space 1}    2.36{col 46}{space 3}0.019{col 54}{space 4} .0159814{col 67}{space 3} .1783375
+{txt}{space 5}gwage_7 {c |}{col 14}{res}{space 2} .1010774{col 26}{space 2} .0414903{col 37}{space 1}    2.44{col 46}{space 3}0.016{col 54}{space 4} .0193746{col 67}{space 3} .1827801
+{txt}{space 5}gwage_8 {c |}{col 14}{res}{space 2} .1063414{col 26}{space 2} .0415488{col 37}{space 1}    2.56{col 46}{space 3}0.011{col 54}{space 4} .0245235{col 67}{space 3} .1881593
+{txt}{space 5}gwage_9 {c |}{col 14}{res}{space 2} .1609493{col 26}{space 2} .0416366{col 37}{space 1}    3.87{col 46}{space 3}0.000{col 54}{space 4} .0789585{col 67}{space 3} .2429401
+{txt}{space 4}gwage_10 {c |}{col 14}{res}{space 2} .1120996{col 26}{space 2} .0416416{col 37}{space 1}    2.69{col 46}{space 3}0.008{col 54}{space 4} .0300989{col 67}{space 3} .1941002
+{txt}{space 4}gwage_11 {c |}{col 14}{res}{space 2} .0995412{col 26}{space 2} .0406007{col 37}{space 1}    2.45{col 46}{space 3}0.015{col 54}{space 4} .0195903{col 67}{space 3} .1794921
+{txt}{space 4}gwage_12 {c |}{col 14}{res}{space 2} .0301766{col 26}{space 2} .0415418{col 37}{space 1}    0.73{col 46}{space 3}0.468{col 54}{space 4}-.0516277{col 67}{space 3} .1119808
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.0005979{col 26}{space 2} .0009768{col 37}{space 1}   -0.61{col 46}{space 3}0.541{col 54}{space 4}-.0025214{col 67}{space 3} .0013256
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+         rho {c |}  {res} .5086459
+{txt}{hline 13}{c BT}{hline 64}
+Durbin-Watson statistic (original)    {res}0.988224
+{txt}Durbin-Watson statistic (transformed) {res}2.211335
+
+{com}. 
+. 
+.  prais gprice gwage gwage_1 gwage_2 gwage_3 gwage_4 gwage_5 gwage_6 gwage_7 gwage_8 gwage_9 gwage_10 gwage_11 gwage_12 u_hat u_hat_1, corc
+{err}{p 0 4}
+gprice collinear with
+gwage gwage_1 gwage_2 gwage_3 gwage_4 gwage_5 gwage_6 gwage_7 gwage_8 gwage_9 gwage_10 gwage_11 gwage_12 u_hat _cons
+{p_end}
+{txt}{search r(459), local:r(459);}
+
+{com}. 
+. 
+.  prais gwage gwage_1 gwage_2 gwage_3 gwage_4 gwage_5 gwage_6 gwage_7 gwage_8 gwage_9 gwage_10 gwage_11 gwage_12 u_hat u_hat_1, corc
+
+{txt}Iteration 0:  rho = {res}0.0000
+{txt}Iteration 1:  rho = {res}-0.0858
+{txt}Iteration 2:  rho = {res}-0.1323
+{txt}Iteration 3:  rho = {res}-0.1570
+{txt}Iteration 4:  rho = {res}-0.1702
+{txt}Iteration 5:  rho = {res}-0.1774
+{txt}Iteration 6:  rho = {res}-0.1813
+{txt}Iteration 7:  rho = {res}-0.1834
+{txt}Iteration 8:  rho = {res}-0.1846
+{txt}Iteration 9:  rho = {res}-0.1852
+{txt}Iteration 10:  rho = {res}-0.1856
+{txt}Iteration 11:  rho = {res}-0.1858
+{txt}Iteration 12:  rho = {res}-0.1859
+{txt}Iteration 13:  rho = {res}-0.1859
+{txt}Iteration 14:  rho = {res}-0.1860
+{txt}Iteration 15:  rho = {res}-0.1860
+{txt}Iteration 16:  rho = {res}-0.1860
+{txt}Iteration 17:  rho = {res}-0.1860
+{txt}Iteration 18:  rho = {res}-0.1860
+{txt}Iteration 19:  rho = {res}-0.1860
+{txt}Iteration 20:  rho = {res}-0.1860
+
+{txt}Cochrane-Orcutt AR(1) regression -- iterated estimates
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}       271
+{txt}{hline 13}{c +}{hline 34}   F(14, 256)      = {res}    22.72
+{txt}       Model {c |} {res} .003584918        14  .000256066   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} .002884979       256  .000011269   {txt}R-squared       ={res}    0.5541
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.5297
+{txt}       Total {c |} {res} .006469897       270  .000023963   {txt}Root MSE        =   {res} .00336
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}       gwage{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 5}gwage_1 {c |}{col 14}{res}{space 2}-.0095627{col 26}{space 2}  .045742{col 37}{space 1}   -0.21{col 46}{space 3}0.835{col 54}{space 4}-.0996413{col 67}{space 3} .0805159
+{txt}{space 5}gwage_2 {c |}{col 14}{res}{space 2}-.0064943{col 26}{space 2} .0458604{col 37}{space 1}   -0.14{col 46}{space 3}0.888{col 54}{space 4}-.0968059{col 67}{space 3} .0838174
+{txt}{space 5}gwage_3 {c |}{col 14}{res}{space 2} .0453659{col 26}{space 2} .0456378{col 37}{space 1}    0.99{col 46}{space 3}0.321{col 54}{space 4}-.0445074{col 67}{space 3} .1352393
+{txt}{space 5}gwage_4 {c |}{col 14}{res}{space 2} .0752011{col 26}{space 2} .0457094{col 37}{space 1}    1.65{col 46}{space 3}0.101{col 54}{space 4}-.0148132{col 67}{space 3} .1652155
+{txt}{space 5}gwage_5 {c |}{col 14}{res}{space 2} .0175321{col 26}{space 2} .0459043{col 37}{space 1}    0.38{col 46}{space 3}0.703{col 54}{space 4}-.0728661{col 67}{space 3} .1079303
+{txt}{space 5}gwage_6 {c |}{col 14}{res}{space 2}-.0143565{col 26}{space 2} .0457244{col 37}{space 1}   -0.31{col 46}{space 3}0.754{col 54}{space 4}-.1044004{col 67}{space 3} .0756874
+{txt}{space 5}gwage_7 {c |}{col 14}{res}{space 2} -.050896{col 26}{space 2}  .045432{col 37}{space 1}   -1.12{col 46}{space 3}0.264{col 54}{space 4} -.140364{col 67}{space 3} .0385719
+{txt}{space 5}gwage_8 {c |}{col 14}{res}{space 2} .0799247{col 26}{space 2} .0454944{col 37}{space 1}    1.76{col 46}{space 3}0.080{col 54}{space 4}-.0096662{col 67}{space 3} .1695155
+{txt}{space 5}gwage_9 {c |}{col 14}{res}{space 2}-.0019699{col 26}{space 2} .0455864{col 37}{space 1}   -0.04{col 46}{space 3}0.966{col 54}{space 4}-.0917421{col 67}{space 3} .0878022
+{txt}{space 4}gwage_10 {c |}{col 14}{res}{space 2}-.0071398{col 26}{space 2} .0455158{col 37}{space 1}   -0.16{col 46}{space 3}0.875{col 54}{space 4}-.0967729{col 67}{space 3} .0824933
+{txt}{space 4}gwage_11 {c |}{col 14}{res}{space 2}  .071233{col 26}{space 2} .0456272{col 37}{space 1}    1.56{col 46}{space 3}0.120{col 54}{space 4}-.0186194{col 67}{space 3} .1610855
+{txt}{space 4}gwage_12 {c |}{col 14}{res}{space 2} .6729797{col 26}{space 2} .0457452{col 37}{space 1}   14.71{col 46}{space 3}0.000{col 54}{space 4} .5828949{col 67}{space 3} .7630646
+{txt}{space 7}u_hat {c |}{col 14}{res}{space 2}-.0989452{col 26}{space 2} .0863916{col 37}{space 1}   -1.15{col 46}{space 3}0.253{col 54}{space 4} -.269074{col 67}{space 3} .0711836
+{txt}{space 5}u_hat_1 {c |}{col 14}{res}{space 2} .2060351{col 26}{space 2} .0862665{col 37}{space 1}    2.39{col 46}{space 3}0.018{col 54}{space 4} .0361529{col 67}{space 3} .3759174
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0005907{col 26}{space 2}  .000564{col 37}{space 1}    1.05{col 46}{space 3}0.296{col 54}{space 4}  -.00052{col 67}{space 3} .0017015
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+         rho {c |}  {res}-.1860021
+{txt}{hline 13}{c BT}{hline 64}
+Durbin-Watson statistic (original)    {res}2.169090
+{txt}Durbin-Watson statistic (transformed) {res}2.028986
+
+{com}.  prais u_hat u_hat_1 gwage gwage_1 gwage_2 gwage_3 gwage_4 gwage_5 gwage_6 gwage_7 gwage_8 gwage_9 gwage_10 gwage_11 gwage_12, corc
+
+{txt}Iteration 0:  rho = {res}0.0000
+{txt}Iteration 1:  rho = {res}-0.1076
+{txt}Iteration 2:  rho = {res}-0.2037
+{txt}Iteration 3:  rho = {res}-0.2618
+{txt}Iteration 4:  rho = {res}-0.2869
+{txt}Iteration 5:  rho = {res}-0.2959
+{txt}Iteration 6:  rho = {res}-0.2989
+{txt}Iteration 7:  rho = {res}-0.2999
+{txt}Iteration 8:  rho = {res}-0.3002
+{txt}Iteration 9:  rho = {res}-0.3003
+{txt}Iteration 10:  rho = {res}-0.3003
+{txt}Iteration 11:  rho = {res}-0.3003
+{txt}Iteration 12:  rho = {res}-0.3003
+{txt}Iteration 13:  rho = {res}-0.3003
+{txt}Iteration 14:  rho = {res}-0.3003
+
+{txt}Cochrane-Orcutt AR(1) regression -- iterated estimates
+
+      Source {c |}       SS           df       MS      Number of obs   ={res}       271
+{txt}{hline 13}{c +}{hline 34}   F(14, 256)      = {res}    17.53
+{txt}       Model {c |} {res} .001427365        14  .000101955   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} .001489235       256  5.8173e-06   {txt}R-squared       ={res}    0.4894
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.4615
+{txt}       Total {c |} {res}   .0029166       270  .000010802   {txt}Root MSE        =   {res} .00241
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}       u_hat{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 5}u_hat_1 {c |}{col 14}{res}{space 2} .7033945{col 26}{space 2} .0449982{col 37}{space 1}   15.63{col 46}{space 3}0.000{col 54}{space 4} .6147807{col 67}{space 3} .7920082
+{txt}{space 7}gwage {c |}{col 14}{res}{space 2}-.0507127{col 26}{space 2}  .044659{col 37}{space 1}   -1.14{col 46}{space 3}0.257{col 54}{space 4}-.1386585{col 67}{space 3} .0372331
+{txt}{space 5}gwage_1 {c |}{col 14}{res}{space 2}-.0145687{col 26}{space 2} .0332894{col 37}{space 1}   -0.44{col 46}{space 3}0.662{col 54}{space 4}-.0801246{col 67}{space 3} .0509872
+{txt}{space 5}gwage_2 {c |}{col 14}{res}{space 2}-.0026508{col 26}{space 2} .0333804{col 37}{space 1}   -0.08{col 46}{space 3}0.937{col 54}{space 4}-.0683858{col 67}{space 3} .0630843
+{txt}{space 5}gwage_3 {c |}{col 14}{res}{space 2} .0021487{col 26}{space 2} .0332791{col 37}{space 1}    0.06{col 46}{space 3}0.949{col 54}{space 4}-.0633871{col 67}{space 3} .0676844
+{txt}{space 5}gwage_4 {c |}{col 14}{res}{space 2}-.0004367{col 26}{space 2} .0334261{col 37}{space 1}   -0.01{col 46}{space 3}0.990{col 54}{space 4}-.0662618{col 67}{space 3} .0653884
+{txt}{space 5}gwage_5 {c |}{col 14}{res}{space 2} .0077737{col 26}{space 2} .0333613{col 37}{space 1}    0.23{col 46}{space 3}0.816{col 54}{space 4}-.0579239{col 67}{space 3} .0734712
+{txt}{space 5}gwage_6 {c |}{col 14}{res}{space 2}-.0016573{col 26}{space 2} .0332166{col 37}{space 1}   -0.05{col 46}{space 3}0.960{col 54}{space 4}  -.06707{col 67}{space 3} .0637553
+{txt}{space 5}gwage_7 {c |}{col 14}{res}{space 2}-.0055796{col 26}{space 2} .0330216{col 37}{space 1}   -0.17{col 46}{space 3}0.866{col 54}{space 4}-.0706081{col 67}{space 3} .0594489
+{txt}{space 5}gwage_8 {c |}{col 14}{res}{space 2} .0033608{col 26}{space 2} .0332001{col 37}{space 1}    0.10{col 46}{space 3}0.919{col 54}{space 4}-.0620192{col 67}{space 3} .0687409
+{txt}{space 5}gwage_9 {c |}{col 14}{res}{space 2}  .001218{col 26}{space 2} .0331093{col 37}{space 1}    0.04{col 46}{space 3}0.971{col 54}{space 4}-.0639833{col 67}{space 3} .0664193
+{txt}{space 4}gwage_10 {c |}{col 14}{res}{space 2} .0029151{col 26}{space 2} .0330354{col 37}{space 1}    0.09{col 46}{space 3}0.930{col 54}{space 4}-.0621407{col 67}{space 3}  .067971
+{txt}{space 4}gwage_11 {c |}{col 14}{res}{space 2}-.0001936{col 26}{space 2} .0332395{col 37}{space 1}   -0.01{col 46}{space 3}0.995{col 54}{space 4}-.0656512{col 67}{space 3} .0652641
+{txt}{space 4}gwage_12 {c |}{col 14}{res}{space 2} .0362151{col 26}{space 2} .0444661{col 37}{space 1}    0.81{col 46}{space 3}0.416{col 54}{space 4}-.0513508{col 67}{space 3} .1237811
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .0001215{col 26}{space 2} .0003707{col 37}{space 1}    0.33{col 46}{space 3}0.743{col 54}{space 4}-.0006085{col 67}{space 3} .0008514
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+         rho {c |}  {res}-.3003267
+{txt}{hline 13}{c BT}{hline 64}
+Durbin-Watson statistic (original)    {res}2.214516
+{txt}Durbin-Watson statistic (transformed) {res}2.023784
+
+{com}. 
