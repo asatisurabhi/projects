@@ -1,0 +1,199 @@
+---
+title: "Logistic Regression analysis of the credit data"
+Question: 1
+output: html_notebook
+---
+#Step 1 - Collecting data
+```{r}
+credit <- read.csv("http://www.sci.csueastbay.edu/~esuess/classes/Statistics_6620/Presentations/ml7/credit.csv")
+
+```
+
+#Step 2 - Exploring and preparing the data
+```{r}
+## Fix the default variable to be 0 or 1
+
+credit$default <- as.numeric(credit$default)
+credit$default <- credit$default - 1
+
+# examine the launch data
+str(credit)
+
+```
+
+```{r}
+# logisitic regression
+
+# set up trainning and test data sets
+
+indx <- sample(1:nrow(credit), as.integer(0.9*nrow(credit)))
+indx
+
+credit_train <- credit[indx,]
+credit_test <- credit[-indx,]
+
+```
+
+
+```{r}
+# Check if there are any missing values
+
+library(Amelia)
+missmap(credit, main = "Missing values vs observed")
+
+# number of missing values in each column
+
+sapply(credit,function(x) sum(is.na(x)))
+
+# number of unique values in each column
+
+sapply(credit, function(x) length(unique(x)))
+```
+#There are no missing values in the dataset
+
+#Step 3 - Training the Logistic regression model on the data
+
+```{r}
+# fit the logistic regression model, with all predictor variables
+
+model <- glm(default ~.,family=binomial(link='logit'),data=credit_train)
+#argument family = binomial tells R to run a logistic regression
+model
+
+summary(model)
+
+anova(model, test="Chisq")
+
+```
+
+
+```{r}
+# drop the insignificant predictors, alpha = 0.10
+#Clearly, checking_balance, months_loan_duration, credit_history,  percent_of_income and age are significant predictors (marked with *)
+
+model <- glm(default ~ checking_balance + months_loan_duration + credit_history +  percent_of_income + age,family=binomial(link='logit'),data=credit_train)
+model
+```
+
+#Step 4 - Evaluating model performance
+
+```{r}
+summary(model)
+
+anova(model, test="Chisq")
+```
+
+
+```{r}
+# check Accuracy
+
+fitted.results <- predict(model,newdata=credit_test,type='response')
+fitted.results <- ifelse(fitted.results > 0.5,1,0)
+
+misClasificError <- mean(fitted.results != credit_test$default)
+print(paste('Accuracy',1-misClasificError))
+```
+#The 0.79 accuracy on the test set is pretty good result
+
+#Step 5 - Improving model performance
+
+```{r}
+# ROC
+
+library(ROCR)
+p <- predict(model, newdata=credit_test, type="response")
+pr <- prediction(p, credit_test$default)
+prf <- performance(pr, measure = "tpr", x.measure = "fpr")
+plot(prf)
+```
+
+```{r}
+#auc
+
+auc <- performance(pr, measure = "auc")
+auc <- auc@y.values[[1]]
+auc
+```
+# Area under the curve (auc) is 0.81 i.e. closer to 1. We can say that model has a good predictive ability.
+
+
+#Random Forest analysis of credit data***************
+#Question: 2
+
+
+#Step 1 - Collecting data
+```{r}
+credit <- read.csv("http://www.sci.csueastbay.edu/~esuess/classes/Statistics_6620/Presentations/ml7/credit.csv")
+
+barplot(table(credit$default))
+```
+
+#There are a lot of declined credit  as compared to accepted. 
+
+#Step 2 - Exploring and preparing the data
+```{r}
+str(credit)
+
+```
+
+
+```{r}
+# Random Forest regression
+
+# Before we build our model, let’s separate our data into testing and training sets
+
+indx <- sample(1:nrow(credit), (0.7*nrow(credit)))
+indx
+
+credit_train <- credit[indx,]
+credit_test <- credit[-indx,]
+
+```
+```{r}
+# Check if there are any missing values
+
+library(Amelia)
+missmap(credit, main = "Missing values vs observed")
+
+# number of missing values in each column
+
+sapply(credit,function(x) sum(is.na(x)))
+
+# number of unique values in each column
+
+sapply(credit, function(x) length(unique(x)))
+```
+#No missing values in the dataset
+
+#Step 3 - Training the Random Forest model on data
+
+```{r}
+### Building the model
+
+library(randomForest)
+
+model <- randomForest(default ~., data = credit_train, ntree=1000, mtry=8)
+```
+
+```{r}
+model
+```
+
+```{r}
+pred <- predict(model, newdata = credit_test)
+```
+
+#Step 4 - Evaluating model performance
+#Confusion Matrix
+
+```{r}
+table(pred, credit_test$default)
+```
+
+#Accuracy
+
+```{r}
+sum(pred==credit_test$default) / nrow(credit_test)
+```
+
+#We achieved 77% accuracy with random forest model. It could be further improved by feature selection, and possibly by trying different values of mtry.

@@ -1,0 +1,61 @@
+---
+title: "Random Forests"
+output: html_notebook
+---
+
+### The data
+
+```{r}
+url <- "https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-white.csv"
+wine <- read.csv(url, sep = ";", header=TRUE)
+head(wine)
+```
+
+```{r}
+barplot(table(wine$quality))
+```
+
+```{r}
+wine$taste <- ifelse(wine$quality < 6, 'bad', 'good')
+wine$taste[wine$quality == 6] <- 'normal'
+wine$taste <- as.factor(wine$taste)
+```
+
+```{r}
+table(wine$taste)
+```
+
+```{r}
+set.seed(123)
+samp <- sample(nrow(wine), 0.6 * nrow(wine))
+train <- wine[samp, ]
+test <- wine[-samp, ]
+```
+
+### Building the model
+
+```{r}
+library(randomForest)
+model <- randomForest(taste ~ . - quality, data = train, ntree=1000, mtry=5)
+```
+
+```{r}
+model
+```
+
+```{r}
+pred <- predict(model, newdata = test)
+```
+
+Confusion Matrix
+
+```{r}
+table(pred, test$taste)
+```
+
+Accuracy
+
+```{r}
+sum(pred==test$taste) / nrow(test)
+```
+
