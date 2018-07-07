@@ -1,0 +1,170 @@
+
+
+
+```{r}
+
+library(ggplot2)
+library(readr)
+library(tm)
+library(syuzhet)
+library(SnowballC)
+
+```
+
+
+```{r}
+train <-read.csv("train.csv", nrows=1000, header = TRUE)
+test <-read.csv("quora_test.csv", header = TRUE )
+
+dim(train)
+dim(test)
+
+head(train)
+head(test)
+
+df = data.frame()
+df.new = data.frame()
+
+```
+
+
+```{r}
+
+
+for (i in 1:nrow(train))
+{
+
+q1 <- Corpus(VectorSource(as.character(train$question1[i])))
+
+# Performing the Text cleaning
+#Removing punctuations
+q1 <- tm_map(q1, removePunctuation)   
+
+
+#Removing Numbers removeNumbers
+q1 <- tm_map(q1, removeNumbers)   
+
+
+q1 <- tm_map(q1, tolower)   
+
+
+q1 <- tm_map(q1, stemDocument)   
+
+
+q1 <- tm_map(q1, stripWhitespace)   
+
+
+#Removing Stop Words as they don't add any value
+#Smart is inbuilt, which gives a set of pre-defined stop words.  removeWords, stopwords("english")
+q1 <- tm_map(q1, removeWords, stopwords("english"))   
+
+# to convert documents into text documents...this tells R to treat preprocessed document as text documents PlainTextDocument
+q1 <- tm_map(q1, PlainTextDocument)   
+
+
+doc = TermDocumentMatrix(q1) 
+a11 = doc$dimnames$Terms
+
+
+
+q2 <- Corpus(VectorSource(as.character(train$question2[i])))
+
+# Performing the Text cleaning
+#Removing punctuations
+q2 <- tm_map(q2, removePunctuation)   
+
+# To remove punctuations on the text data
+
+#Removing Numbers removeNumbers
+q2 <- tm_map(q2, removeNumbers)   
+
+#To avoid duplicacy converting all to lower case tolower
+q2 <- tm_map(q2, tolower)   
+
+# removing common word endings stemDocument
+q2 <- tm_map(q2, stemDocument)   
+
+# to remove white space stripWhitespace
+q2 <- tm_map(q2, stripWhitespace)   
+
+#Removing Stop Words as they don't add any value
+#Smart is inbuilt, which gives a set of pre-defined stop words.  removeWords, stopwords("english")
+q2 <- tm_map(q2, removeWords, stopwords("english"))   
+
+# to convert documents into text documents...this tells R to treat preprocessed document as text documents PlainTextDocument
+q2 <- tm_map(q2, PlainTextDocument)   
+
+
+doc = TermDocumentMatrix(q2) 
+b11 = doc$dimnames$Terms
+
+
+a11
+b11
+
+c11 = a11 %in% b11
+c11
+
+same_items = sum(c11)
+same_items
+distinct_items = length(a11) + length(b11)
+distinct_items
+
+match_count = (2*same_items)/(distinct_items)
+match_count
+
+ 
+sentiment1 <- get_nrc_sentiment(as.character(train$question1[i]))
+sentiment2 <- get_nrc_sentiment(as.character(train$question2[i]))
+
+sentiment1
+sentiment2
+
+p1 = sum(sentiment1$positive)
+p2 = sum(sentiment2$positive)
+
+n1 = sum(sentiment1$negative)
+n2 = sum(sentiment2$negative)
+
+ n1
+ n2
+
+ p1
+ p2
+df.new = cbind(match_count,p1,p2,n1,n2)
+df = rbind(df,df.new)
+}
+
+train_new = cbind(train,df[1:1000,])
+train_new = train_new[,6:11]
+train_new[,c(1,3:6)] = lapply(train_new[,c(1,3:6)],as.factor)
+train_new = na.omit(train_new)
+
+```
+
+
+```{r}
+library(randomForest)
+model <- randomForest(is_duplicate ~ ., data = train_new)
+model
+
+pred <- predict(model, newdata = train_new,  type="prob")
+
+```
+
+
+
+```{r}
+
+#bound the results, otherwise you might get infinity results
+pred = apply(pred, c(1,2), function(x) min(max(x, 1E-15), 1-1E-15)) 
+
+logLoss = function(pred, actual){
+  -1*mean(log(pred[model.matrix(~ actual + 0) - pred > 0]))
+}
+
+### Logloss value = 
+logLoss(pred, train_new$is_duplicate)
+
+```
+

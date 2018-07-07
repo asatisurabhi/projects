@@ -1,0 +1,305 @@
+---
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
+---
+# Stat 6620
+# Project Work
+# Asati Surabhi
+# Topic: Quora Question Pairs
+
+#Project Goal:To identify question pairs that have the same intent 
+
+
+```{r}
+
+library(ggplot2)
+library(readr)
+library(tm)
+library(syuzhet)
+library(SnowballC)
+library(NLP)
+#install.packages("NLP")
+
+```
+ 
+#Step 1: Collecting data
+#To develop the Quora Question Pairs model, I am using the training data with labels  
+#https://www.kaggle.com/c/quora-question-pairs/data
+
+#Dataset includes over 400K Questions. I am working on the first 5000 samples.
+
+#Data fields:
+#Data includes 5 features and is_duplicate outcome, as follows:
+#id - the id of a training set question pair
+#qid1, qid2 - unique ids of each question (only available in train.csv)
+#question1, question2 - the full text of each question
+#is_duplicate - the target variable, set to 1 if question1 and question2 have essentially the same meaning, and 0 otherwise.
+
+```{r}
+mydata <-read.csv("train.csv", header = TRUE, nrows = 5000, stringsAsFactors = FALSE)
+str(mydata)
+```
+#Step 2: Exploring and Preparing the data
+
+```{r}
+
+count <- 1500
+train <- mydata[1:count,] 
+test <- mydata[(count+1):(count*2),]
+
+dim(train)
+dim(test)
+
+head(train)
+head(test)
+```
+
+#Number of Duplicate and Non Duplicate Question Pairs
+
+```{r}
+
+#Examining the distribution of the outcome (is_duplicate) variable
+
+hist(mydata$is_duplicate, breaks = 3, col = "lightblue", border = "black", main = "Number of Duplicate and Non Duplicate Question Pairs")
+
+
+
+```
+
+#Text Preprocessing
+#Building features(5):
+#1. Matching word counts (1 feature)
+#2. Sentiment Analysis (4 features, 2 per question)
+
+#Process:
+#a) Text cleaning: Tokenizatiom, convert all tokens to lower case, 
+#   remove punctuations, special tokens, etc.
+#b) Text normalization
+
+
+```{r}
+
+
+prepdata <- function(inputdata){
+  df = data.frame()
+  df.new = data.frame()
+  for (i in 1:nrow(inputdata))
+  {
+    q1 <- Corpus(VectorSource(as.character(inputdata$question1[i])))
+    
+    #Text cleaning
+    #Removing punctuations
+    q1 <- tm_map(q1, removePunctuation)   
+    
+    #Removing Numbers
+    q1 <- tm_map(q1, removeNumbers)   
+    q1 <- tm_map(q1, tolower)   
+    q1 <- tm_map(q1, stemDocument)   
+    q1 <- tm_map(q1, stripWhitespace)  
+    
+    
+    #Removing Stop Words 
+    
+    q1 <- tm_map(q1, removeWords, stopwords("english")) 
+    
+    #Converting documents into text documents
+    q1 <- tm_map(q1, PlainTextDocument)   
+    doc = TermDocumentMatrix(q1) 
+    a11 = doc$dimnames$Terms
+    
+    q2 <- Corpus(VectorSource(as.character(inputdata$question2[i])))
+    q2 <- tm_map(q2, removePunctuation)   
+    q2 <- tm_map(q2, removeNumbers)   
+    q2 <- tm_map(q2, tolower)   
+    q2 <- tm_map(q2, stemDocument)   
+    q2 <- tm_map(q2, stripWhitespace)   
+    q2 <- tm_map(q2, removeWords, stopwords("english"))   
+    q2 <- tm_map(q2, PlainTextDocument)   
+    
+    doc = TermDocumentMatrix(q2) 
+    
+    b11 = doc$dimnames$Terms
+    c11 = a11 %in% b11
+    
+    same_items = sum(c11)
+    distinct_items = length(a11) + length(b11)
+    
+    match_count = (2*same_items)/(distinct_items)
+    
+    #Sentiment Analysis 
+    sentiment1 <- get_nrc_sentiment(as.character(inputdata$question1[i]))
+    sentiment2 <- get_nrc_sentiment(as.character(inputdata$question2[i]))
+    
+    p1 = sum(sentiment1$positive)
+    p2 = sum(sentiment2$positive)
+    n1 = sum(sentiment1$negative)
+    n2 = sum(sentiment2$negative)
+    
+    df.new = cbind(match_count,p1,p2,n1,n2)
+    df = rbind(df,df.new)
+  
+  }
+  return(df)
+}
+
+```
+
+#Construct train and Test data sets with additional features that express relationship between measured characterstics
+
+```{r}
+#Calulating features
+mydata_df <- prepdata(mydata[1:(count*2),])
+mydata_new = cbind(mydata[1:(count*2),],mydata_df[1:(count*2),])
+
+#Creating a data frame with features: is_duplicate, match_count, p1,p2,n1,n2
+mydata_new = mydata_new[,6:11]
+mydata_new[,c(1,3:6)] = lapply(mydata_new[,c(1,3:6)],as.factor)
+
+mydata_new = na.omit(mydata_new)
+
+#Seggragate data into two datasets: Train and Test
+train_new = mydata_new[1:count,]
+test_new  = mydata_new[(count+1):(count*2),]
+
+#Remove labels (is_duplicate) from Test dataset
+test_new <- test_new[-c(1)]
+
+```
+#Step 3: Training Logistic Regression model on data
+
+
+```{r}
+
+# fit the logistic regression model, with all predictor variables
+
+logit_model <- glm(is_duplicate ~.,family=binomial(link='logit'),data=train_new)
+logit_model
+
+summary(logit_model)
+
+anova(logit_model, test="Chisq")
+
+
+```
+
+#Step 4: Evaluating model performance
+```{r}
+# Checking Accuracy
+
+fitted.results <- predict(logit_model,newdata=train_new,type='response')
+fitted.results <- ifelse(fitted.results > 0.5,1,0)
+
+misClasificError <- mean(fitted.results != train$is_duplicate)
+print(paste('Accuracy',1-misClasificError))
+```
+#Accuracy = 0.674
+
+```{r}
+# ROC
+library(ROCR)
+p <- predict(logit_model, newdata=train_new, type="response")
+pr <- prediction(p, train_new$is_duplicate)
+prf <- performance(pr, measure = "tpr", x.measure = "fpr")
+plot(prf)
+```
+
+```{r}
+auc <- performance(pr, measure = "auc")
+auc <- auc@y.values[[1]]
+auc
+
+```
+#Auc = 0.747
+
+#Step 5: Improving the Model: Training Random Forest Model on data
+
+```{r}
+#Building the model
+
+library(randomForest)
+model <- randomForest(is_duplicate ~ ., data = train_new)
+model
+
+
+library(party)
+x <- ctree(is_duplicate ~ ., data = train_new)
+plot(x, type="simple")
+
+#Making predictions on training data
+rf <- predict(model, newdata = train_new, type = "response")
+
+table(rf,train_new$is_duplicate)
+
+#Accuracy
+
+sum(rf==train_new$is_duplicate) / nrow(train_new)
+
+```
+#Accuracy = 0.796
+
+
+#Making predictions on testing data
+```{r}
+
+rf <- predict(model, newdata = test_new, type = "response")
+
+table(rf,test$is_duplicate)
+
+
+```
+
+# Evaluating model performance
+```{r}
+
+#Accuracy
+
+sum(rf==test$is_duplicate) / nrow(test_new)
+
+```
+
+#Accuracy = 0.661
+
+#Evaluating Random forest model performance
+
+#Comparing an auto-tuned random forest to the best auto-tuned boosted C5.0 model
+```{r}
+
+library(caret)
+library(lattice)
+library(ggplot2)
+ctrl <- trainControl(method = "repeatedcv",number = 10, repeats = 10)
+grid_rf <- expand.grid(.mtry = c(1, 2, 3, 4))
+
+set.seed(300)
+m_rf <- train(is_duplicate ~ ., data = train_new, method = "rf", 
+              metric = "Kappa", trControl = ctrl, tuneGrid = grid_rf)
+
+grid_c50 <- expand.grid(.model = "tree",
+                        .trials = c(10, 20, 30, 40),
+                        .winnow = "FALSE")
+set.seed(300)
+m_c50 <- train(is_duplicate ~ ., data = train_new, method = "C5.0",
+              metric = "Kappa", trControl = ctrl,
+              tuneGrid = grid_c50)
+m_rf
+m_c50
+
+```
+
+#Plot: Random Forest model performance (Accuracy) across various sample sizes for both - Train and Test data
+
+```{r}
+sample_sizes  <- c(1000, 2000, 3000, 4000, 5000)
+train_accuracy <- c(.794, .769, .796, .759, .746)
+test_accuracy  <- c(.634, .554, .657, .668, .668)
+
+resampling_accuracy <- data.frame(samplesize=rep(sample_sizes, 2),
+                results=c(train_accuracy, test_accuracy), group = rep(c("train","test"),each = 5))
+ggplot(data=resampling_accuracy, aes(x=samplesize, y=results, group = group)) +
+  geom_line(aes(color=group))+
+  geom_point(aes(color=group))+
+  labs(title="Resampling Accuracy results for train and test data",x="Sample Size", y = "Accuracy")
+```
+
