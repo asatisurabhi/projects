@@ -1,0 +1,43 @@
+hadoop dfs -copyFromLocal ProjectData /home/student2
+
+hadoop dfs -ls /home/student2/ProjectData
+
+javac -cp src/:hadoop-common-2.6.1.jar:hadoop-mapreduce-client-core-2.6.1.jar:commons-cli-2.0.jar -d . JobBuilder.java NcdcRecordParser.java YearTemperatureReducer.java  YearTemperature.java YearTemperatureMapper.java
+
+jar -cvf final-project.jar YearTemperatureReducer.class YearTemperature.class JobBuilder.class NcdcRecordParser.class YearTemperatureMapper.class
+
+hadoop jar final-project.jar YearTemperature /home/student2/ProjectData /home/student2/finalproject
+
+hadoop dfs -cat /home/student2/finalproject/part-r-00000
+
+---
+
+Open Pig >
+
+A = LOAD '/home/student2/finalproject/part-r-00000' USING PigStorage('\t') AS (year:chararray, tempratures:chararray);
+
+B = FOREACH A GENERATE year, FLATTEN(TOKENIZE(tempratures)) as temprature;
+
+C = GROUP B BY year;
+
+D = FOREACH C GENERATE  group, MIN(B.temprature), MAX(B.temprature);
+
+DUMP D;
+
+---
+
+Open Hive > 
+
+create table FinalYearTemperature(year string, temp array<double>) row format delimited fields terminated by '\t' collection items terminated by ',';
+
+load data inpath '/home/student2/finalproject/part-r-00000' into table FinalYearTemperature;
+
+select 
+  year, 
+  avg(temparture) 
+FROM
+  FinalYearTemperature LATERAL VIEW explode(temp) x AS temparture
+group by
+  year;
+
+---
