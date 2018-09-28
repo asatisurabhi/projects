@@ -1,0 +1,42 @@
+---
+title: "Titanic"
+output: html_notebook
+---
+
+
+```{r}
+mydata<-read.csv("train.csv", na.strings =c(""))
+head(mydata)
+
+```
+
+```{r}
+sapply(mydata, function(x) sum(is.na(x)))
+
+sapply(mydata, function(x) length(unique(x)))
+
+
+library(Amelia)
+missmap(mydata, main = "Missing Vs Observed data")
+
+
+```
+
+```{r}
+
+#Removing pessenger ID, name, tickets (too many unique values) and cabin (too many missing values)
+data<-subset(mydata, select = c(2,3,5,6,7,8,10,12))
+```
+
+```{r}
+#Replacing NAs
+#Age has 177 NAs
+#Embarked has 2 so delete 2 rows
+
+data$Age[is.na(data$Age)]<-mean(data$Age, na.rm = TRUE)
+
+data1<-data[!is.na(data$Embarked), ]
+rownames(data)<-NULL
+
+```
+
