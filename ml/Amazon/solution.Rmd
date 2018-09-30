@@ -1,0 +1,79 @@
+---
+title: "Amazon Employee Access Challenge"
+output: html_notebook
+---
+
+
+1. Load the data
+```{r}
+train <- read.csv("train.csv")
+test <- read.csv("test.csv")
+
+str(train)
+
+```
+
+
+2. Checking NA values
+```{r}
+sapply(train, function(x) sum(is.na(x)))
+
+sapply(train, function(x) length(unique(x)))
+
+```
+
+3. Removing column MGR_ID and ROLE_TITLE
+
+```{r}
+
+train <- train[,-3]
+str(train)
+
+train <- train[,-6]
+
+```
+
+4. Fitting the model
+
+
+```{r}
+
+
+model <- glm(ACTION ~., family = binomial(link = 'logit'), data = train)
+summary(model)
+
+
+
+```
+
+
+5. Predicting test data
+```{r}
+result <- predict(model, test, type = "response")
+
+
+result <- ifelse(result > 0.87,1,0)
+
+```
+
+
+
+6.Writing resultes to a file
+
+```{r}
+submit_result <- cbind(test$id, result)
+
+result <- submit_result[1:58921,]
+
+write.csv(result, file = "Result.csv")
+```
+
+
+
+
+
+
+
+
+
+
