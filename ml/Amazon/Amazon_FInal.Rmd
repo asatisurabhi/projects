@@ -1,0 +1,207 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+Train Logistic Regression Model on One Hot Encoded Data
+
+1. Load and explore the data
+
+```{r}
+
+
+install.packages("ggplot2")
+library(ggplot2)
+install.packages("caret")
+library(caret)
+
+train <- read.csv("train.csv", stringsAsFactors = F)
+test <- read.csv("test_new.csv", stringsAsFactors = F)
+
+
+train_req <- subset(train, select = c(4,5,6,7,9))
+test_req <- subset(test, select = c(4,5,6,7,9))
+
+train_req$ROLE_ROLLUP_HYBRID <- train_req$ROLE_ROLLUP_1 + train_req$ROLE_ROLLUP_2
+test_req$ROLE_ROLLUP_HYBRID <- test_req$ROLE_ROLLUP_1 + test_req$ROLE_ROLLUP_2
+
+train_req <- train_req[,-c(1,2)]
+test_req <- test_req[,-c(1,2)]
+
+str(train_req)
+str(test_req)
+
+```
+
+
+2. Checking NA values
+```{r}
+sapply(train_req, function(x) sum(is.na(x)))
+
+sapply(train_req, function(x) length(unique(x)))
+
+```
+
+3. Feature Selection
+
+```{r}
+
+mydata <- rbind(train_req, test_req)
+
+dim(mydata)
+
+#One Hot Encoding
+#Factorization for one hot encoding
+mydata$ROLE_DEPTNAME <- as.factor(mydata$ROLE_DEPTNAME)
+mydata$ROLE_TITLE <- as.factor(mydata$ROLE_TITLE)
+mydata$ROLE_FAMILY <- as.factor(mydata$ROLE_FAMILY)
+mydata$ROLE_ROLLUP_HYBRID <- as.factor(mydata$ROLE_ROLLUP_HYBRID)
+
+dmy <- dummyVars("~ .", data = mydata, fullRank = T)
+trsf_data <- data.frame(predict(dmy, newdata = mydata))
+
+```
+
+4. Pooling in all the features
+```{r}
+train_new <- trsf_data[1:32769,]
+test_new <- trsf_data[32770:91690,]
+
+train_new$RESOURCE <- train$RESOURCE
+train_new$ACTION <- train$ACTION
+train_new$ROLE_FAMILY_DESC <- train$ROLE_FAMILY_DESC
+
+test_new$RESOURCE <- test$RESOURCE
+test_new$ROLE_FAMILY_DESC <- test$ROLE_FAMILY_DESC
+
+str(train_new)
+str(test_new)
+
+```
+
+
+5. Fitting the model
+
+```{r}
+
+model <- glm(ACTION ~., family = binomial(link = 'logit'), data = train_new)
+summary(model)
+
+```
+
+6. Prediction
+
+
+```{r}
+result <- predict(model, test_new, type = "response")
+summary(result)
+```
+
+Train Random Forest
+
+
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+1. Load and explore the data
+
+```{r}
+
+library(caret)
+library(ggplot2)
+library(randomForest)
+
+train <- read.csv("train.csv", stringsAsFactors = F)
+test <- read.csv("test_new.csv", stringsAsFactors = F)
+
+train_req <- subset(train, select = c(1,2,4,5,6,7,8,9))
+test_req <- subset(test, select = c(2,4,5,6,7,8,9))
+
+str(train_req)
+str(test_req)
+
+```
+
+
+2. Checking NA values
+```{r}
+sapply(train_req, function(x) sum(is.na(x)))
+
+sapply(train_req, function(x) length(unique(x)))
+
+```
+
+
+3. Fitting the model
+
+Random forest
+
+```{r}
+
+rf <- randomForest(ACTION ~ ., data = train_req, ntree = 1000, mtry = 5)
+rf
+
+p <- predict(rf, test_req, type = "response")
+write.csv(p, file = "rf1000.csv")
+```
+
+
+KNN Model
+
+
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+1. Load and explore the data
+
+```{r}
+
+library(caret)
+library(ggplot2)
+library(randomForest)
+
+train <- read.csv("train.csv", stringsAsFactors = F)
+test <- read.csv("test_new.csv", stringsAsFactors = F)
+
+str(train)
+str(test)
+
+train_req <- subset(train, select = c(2,4,5,6,7,8,9))
+test_req <- subset(test, select = c(2,4,5,6,7,8,9))
+
+```
+
+
+2. Checking NA values
+```{r}
+sapply(train_req, function(x) sum(is.na(x)))
+
+sapply(train_req, function(x) length(unique(x)))
+
+```
+
+
+3. training a KNN model
+
+```{r}
+library(class)
+
+test_pred <- knn(train = train_req, test = test_req,
+                      cl = train$ACTION, k = 21)
+
+write.csv(test_pred, file = "AmazonKNN.csv")
+```
+
+
+
+
+
+
+
+
+
+
+
